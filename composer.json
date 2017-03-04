@@ -1,0 +1,63 @@
+{
+	"name"			: "ipub/websockets-wamp",
+	"type"			: "library",
+	"description"	: "Extension for implementing WAMP protocol into ipub/websockets server",
+	"keywords"		: ["nette", "websockets", "wamp", "ipub", "ipublikuj", "framework", "tools"],
+	"homepage"		: "https://github.com/iPublikuj/websockets-wamp",
+	"license"		: ["GPL-2.0", "GPL-3.0"],
+
+	"authors": [
+		{
+			"name"		: "iPublikuj:cms",
+			"email"		: "info@ipublikuj.eu",
+			"homepage"	: "http://www.ipublikuj.eu/"
+		}
+	],
+
+	"support":{
+		"email"		:"support@ipublikuj.eu",
+		"issues"	:"https://github.com/iPublikuj/websockets-wamp/issues"
+	},
+
+	"extra": {
+		"ipub"	: {
+			"configuration" : {
+				"extensions" : {
+					"webSocketsWAMP" : "IPub\\WebSocketsWAMP\\DI\\WebSocketsWAMPExtension"
+				}
+			}
+		}
+	},
+
+	"require": {
+		"php"	: ">=7.0.0",
+
+		"nette/application"	: "~2.4",
+		"nette/di"			: "~2.4",
+		"nette/utils"		: "~2.4",
+
+		"symfony/serializer"	: "~3.2",
+
+		"ipub/websockets": "~1.0.0",
+
+		"pds/skeleton"	: "^1.0",
+
+		"psr/log"	: "~1.0"
+	},
+
+	"require-dev": {
+		"nette/bootstrap"		: "~2.4",
+		"nette/mail"			: "~2.4",
+		"nette/robot-loader"	: "~2.4",
+		"nette/safe-stream"		: "~2.3",
+		"nette/tester"			: "@dev",
+
+		"tracy/tracy"	: "@dev"
+	},
+
+	"autoload": {
+		"psr-0": {
+			"IPub\\WebSocketsWAMP\\": "src/"
+		}
+	}
+}
