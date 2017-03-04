@@ -1,6 +1,6 @@
 <?php
 /**
- * ServerEvent.php
+ * OnServerStartHandler.php
  *
  * @copyright      More in license.md
  * @license        http://www.ipublikuj.eu
@@ -18,10 +18,55 @@ namespace IPub\WebSocketsWAMP\Events;
 
 use Nette;
 
+use React\EventLoop\LoopInterface;
+
+use IPub;
+use IPub\WebSocketsWAMP\Application;
+use IPub\WebSocketsWAMP\PushMessages;
+
+/**
+ * Server start event for push managers
+ *
+ * @package        iPublikuj:WebSocketWAMP!
+ * @subpackage     Events
+ *
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
+ */
 final class OnServerStartHandler
 {
 	/**
 	 * Implement nette smart magic
 	 */
 	use Nette\SmartObject;
+
+	/**
+	 * @var PushMessages\ConsumersRegistry
+	 */
+	private $consumersRegistry;
+
+	/**
+	 * @var Application\V1\IApplication
+	 */
+	private $application;
+
+	/**
+	 * @param PushMessages\ConsumersRegistry $consumersRegistry
+	 * @param Application\V1\IApplication $application
+	 */
+	public function __construct(PushMessages\ConsumersRegistry $consumersRegistry, Application\V1\IApplication $application)
+	{
+		$this->consumersRegistry = $consumersRegistry;
+		$this->application = $application;
+	}
+
+	/**
+	 * @param LoopInterface $eventLoop
+	 */
+	public function __invoke(LoopInterface $eventLoop)
+	{
+		/** @var PushMessages\IConsumer $consumer */
+		foreach ($this->consumersRegistry->getConsumers() as $consumer) {
+			$consumer->connect($eventLoop, $this->application);
+		}
+	}
 }

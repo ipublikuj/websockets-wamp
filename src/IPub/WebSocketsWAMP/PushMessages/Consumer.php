@@ -26,8 +26,8 @@ use Nette;
  *
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  *
- * @method onSuccess($data, IConsumer $consumer)
- * @method onFail($data, IConsumer $consumer)
+ * @method onSuccess(IConsumer $consumer, $data = NULL)
+ * @method onFail(IConsumer $consumer, $data = NULL)
  */
 abstract class Consumer implements IConsumer
 {
@@ -50,6 +50,14 @@ abstract class Consumer implements IConsumer
 	 * @var string
 	 */
 	private $name;
+
+	/**
+	 * @param string $name
+	 */
+	public function __construct(string $name)
+	{
+		$this->name = $name;
+	}
 
 	/**
 	 * {@inheritdoc}

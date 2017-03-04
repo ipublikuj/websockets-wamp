@@ -22,7 +22,12 @@ use Nette\DI;
 use IPub;
 use IPub\WebSocketsWAMP;
 use IPub\WebSocketsWAMP\Application;
+use IPub\WebSocketsWAMP\Events;
+use IPub\WebSocketsWAMP\PushMessages;
+use IPub\WebSocketsWAMP\Serializers;
 use IPub\WebSocketsWAMP\Topics;
+
+use IPub\WebSockets\Server as WebSocketsServer;
 
 /**
  * WebSockets WAMP extension container
@@ -81,6 +86,45 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 
 			$builder->addDefinition($this->prefix('application'))
 				->setClass(Application\V1\Application::class);
+		}
+
+		$builder->addDefinition($this->prefix('serializer'))
+			->setClass(Serializers\PushMessageSerializer::class);
+
+		/**
+		 * PUSH NOTIFICATION
+		 */
+
+		$builder->addDefinition($this->prefix('push.registry'))
+			->setClass(PushMessages\ConsumersRegistry::class);
+
+		/**
+		 * EVENTS
+		 */
+
+		$builder->addDefinition($this->prefix('events.onServerStart'))
+			->setClass(Events\OnServerStartHandler::class);
+
+		$server = $builder->getDefinitionByType(WebSocketsServer\Server::class);
+		$server->addSetup('$service->onStart[] = ?', ['@' . $this->prefix('events.onServerStart')]);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function beforeCompile()
+	{
+		parent::beforeCompile();
+
+		/** @var DI\ContainerBuilder $builder */
+		$builder = $this->getContainerBuilder();
+
+		$registry = $builder->getDefinition($builder->getByType(PushMessages\ConsumersRegistry::class));
+
+		$consumers = $builder->findByType(PushMessages\IConsumer::class);
+
+		foreach ($consumers as $consumer) {
+			$registry->addSetup('?->addConsumer(?)', [$registry, $consumer]);
 		}
 	}
 

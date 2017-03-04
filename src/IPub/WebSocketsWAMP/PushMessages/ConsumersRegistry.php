@@ -49,9 +49,9 @@ final class ConsumersRegistry implements IConsumersRegistry
 	/**
 	 * {@inheritdoc}
 	 */
-	public function addConsumer(IConsumer $consumer, string $name)
+	public function addConsumer(IConsumer $consumer)
 	{
-		$this->consumers[$name] = $consumer;
+		$this->consumers[$consumer->getName()] = $consumer;
 	}
 
 	/**

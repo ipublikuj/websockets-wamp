@@ -28,11 +28,10 @@ interface IConsumersRegistry
 {
 	/**
 	 * @param IConsumer $consumer
-	 * @param string $name
 	 *
 	 * @return void
 	 */
-	function addConsumer(IConsumer $consumer, string $name);
+	function addConsumer(IConsumer $consumer);
 
 	/**
 	 * @param string $name

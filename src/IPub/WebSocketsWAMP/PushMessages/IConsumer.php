@@ -38,7 +38,7 @@ interface IConsumer
 	 *
 	 * @return void
 	 */
-	function handle(EventLoop\LoopInterface $loop, Application\V1\IApplication $application);
+	function connect(EventLoop\LoopInterface $loop, Application\V1\IApplication $application);
 
 	/**
 	 * @return string
