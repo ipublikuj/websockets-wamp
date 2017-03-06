@@ -22,12 +22,14 @@ use Nette\DI;
 use IPub;
 use IPub\WebSocketsWAMP;
 use IPub\WebSocketsWAMP\Application;
+use IPub\WebSocketsWAMP\Clients;
 use IPub\WebSocketsWAMP\Events;
 use IPub\WebSocketsWAMP\PushMessages;
 use IPub\WebSocketsWAMP\Serializers;
 use IPub\WebSocketsWAMP\Topics;
 
 use IPub\WebSockets\Server as WebSocketsServer;
+use IPub\WebSockets\Clients as WebSocketsClients;
 
 /**
  * WebSockets WAMP extension container
@@ -97,6 +99,15 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 
 		$builder->addDefinition($this->prefix('push.registry'))
 			->setClass(PushMessages\ConsumersRegistry::class);
+
+		/**
+		 * CLIENTS
+		 */
+
+		$builder->removeDefinition($builder->getByType(WebSocketsClients\IClientFactory::class));
+
+		$builder->addDefinition($this->prefix('clients.factory'))
+			->setClass(Clients\ClientFactory::class);
 
 		/**
 		 * EVENTS

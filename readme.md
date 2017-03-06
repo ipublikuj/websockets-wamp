@@ -26,7 +26,7 @@ extensions:
 
 ## Documentation
 
-Learn how to create sessions under websockets in [documentation](https://github.com/iPublikuj/websockets-wamp/blob/master/docs/en/index.md).
+Learn how to create WAMP application & integrate it into websockets in [documentation](https://github.com/iPublikuj/websockets-wamp/blob/master/docs/en/index.md).
 
 ***
 Homepage [http://www.ipublikuj.eu](http://www.ipublikuj.eu) and repository [http://github.com/iPublikuj/websockets-wamp](http://github.com/iPublikuj/websockets-wamp).

@@ -32,13 +32,12 @@
 	"require": {
 		"php"	: ">=7.0.0",
 
-		"nette/application"	: "~2.4",
 		"nette/di"			: "~2.4",
 		"nette/utils"		: "~2.4",
 
 		"symfony/serializer"	: "~3.2",
 
-		"ipub/websockets": "~1.0.0",
+		"ipub/websockets": "~1.0.",
 
 		"pds/skeleton"	: "^1.0",
 
