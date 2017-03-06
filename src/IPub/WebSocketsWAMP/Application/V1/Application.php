@@ -16,6 +16,7 @@ declare(strict_types = 1);
 
 namespace IPub\WebSocketsWAMP\Application\V1;
 
+use Nette\Diagnostics\Debugger;
 use Nette\Http;
 use Nette\Utils;
 
@@ -272,23 +273,31 @@ final class Application extends WebSocketsApplication\Application implements IAp
 		try {
 			$topic = $this->getTopic($message->getTopic());
 
-			$url = new Http\UrlScript();
-			$url->setScheme('ws');
-			$url->setHost($this->serverConfiguration->getHttpHost());
-			$url->setPort($this->serverConfiguration->getPort());
-			$url->setPath($message->getTopic());
+			$url = new Http\UrlScript($message->getTopic());
+			$action = $url->getQueryParameter(WebSocketsApplication\Controller\Controller::ACTION_KEY, WebSocketsApplication\Controller\Controller::DEFAULT_ACTION);
 
-			$httpRequest = new WebSocketsHttp\Request($url, NULL, NULL, NULL, NULL, NULL, WebSocketsHttp\IRequest::POST);
+			if ($action === WebSocketsApplication\Controller\Controller::DEFAULT_ACTION) {
+				$url->setQueryParameter(WebSocketsApplication\Controller\Controller::ACTION_KEY, 'push');
+			}
 
-			$httpRequest = $this->modifyRequest($httpRequest, $topic, 'push');
+			$httpRequest = new WebSocketsHttp\Request($url, NULL, NULL, NULL, NULL, NULL, WebSocketsHttp\IRequest::GET);
 
 			$this->processMessage($httpRequest, [
-				'topic'  => $topic,
-				'data'   => $message->getData(),
+				'topic'   => $topic,
+				'data'    => $message->getData(),
+				'message' => $message,
 			]);
 
-		} catch (\Exception $ex) {
+			$this->logger->info(sprintf('Message was published to %s topic', $topic->getId()));
 
+		} catch (\Exception $ex) {
+			$context = [
+				'provider' => $provider,
+				'topic'    => $message->getTopic(),
+				'data'     => $message->getData(),
+			];
+
+			$this->logger->error(sprintf('An error (%s) has occurred: %s', $ex->getCode(), $ex->getMessage()), $context);
 		}
 	}
 
@@ -350,7 +359,11 @@ final class Application extends WebSocketsApplication\Application implements IAp
 		$url = $httpRequest->getUrl();
 		$url->setPath(rtrim($url->getPath(), '/') . '/' . ltrim($topic->getId(), '/'));
 
-		$url->setQueryParameter('action', $action);
+		$parsedAction = $url->getQueryParameter(WebSocketsApplication\Controller\Controller::ACTION_KEY, WebSocketsApplication\Controller\Controller::DEFAULT_ACTION);
+
+		if ($parsedAction === WebSocketsApplication\Controller\Controller::DEFAULT_ACTION) {
+			$url->setQueryParameter(WebSocketsApplication\Controller\Controller::ACTION_KEY, $action);
+		}
 
 		$httpRequest->setUrl($url);
 

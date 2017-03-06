@@ -80,6 +80,7 @@ abstract class Pusher implements IPusher
 	public function push($data, $destination, array $routeParameters = [], array $context = [])
 	{
 		$channel = $this->linkGenerator->link($destination, $routeParameters);
+		Nette\Diagnostics\Debugger::barDump($channel);
 		$message = new Entities\PushMessages\Message($channel, $data);
 
 		return $this->doPush($this->serializer->serialize($message), $context);
