@@ -145,7 +145,7 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 	 *
 	 * @return void
 	 */
-	public static function register(Nette\Configurator $config, string $extensionName = 'websocketsWAMP')
+	public static function register(Nette\Configurator $config, string $extensionName = 'webSocketsWAMP')
 	{
 		$config->onCompile[] = function (Nette\Configurator $config, DI\Compiler $compiler) use ($extensionName) {
 			$compiler->addExtension($extensionName, new WebSocketsWAMPExtension());
