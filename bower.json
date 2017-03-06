@@ -1,0 +1,28 @@
+{
+	"name": "ipub-websockets-wamp",
+	"main": [
+		"public/js/ipub.websockets.wamp.js"
+	],
+	"authors": [
+		{
+			"name"		: "iPublikuj:cms",
+			"email"		: "info@ipublikuj.eu",
+			"homepage"	: "http://www.ipublikuj.eu/"
+		}
+	],
+	"license": ["GPL-2.0", "GPL-3.0"],
+	"dependencies": {
+		"autobahnjs": "v0.8.2"
+	},
+	"ignore": [
+		"docs",
+		"src",
+		"templates",
+		"tests",
+		".gitignore",
+		".scrutinizer.yml",
+		".travis.yml",
+		"composer.json",
+		"package.neon"
+	]
+}
