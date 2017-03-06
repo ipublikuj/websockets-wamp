@@ -26,7 +26,6 @@ use IPub;
 use IPub\WebSocketsWAMP;
 
 require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'bootstrap.php';
-require __DIR__ . DS . 'libraries' . DS . 'Application.php';
 
 /**
  * WebSockets WAMP extension container test case
