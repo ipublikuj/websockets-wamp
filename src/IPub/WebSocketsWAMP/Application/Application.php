@@ -172,6 +172,8 @@ final class Application extends WebSocketsApplication\Application implements IAp
 
 						$client->send(Utils\Json::encode($data));
 					}
+
+					$this->logger->info(sprintf('Connection %s has called RPC on %s topic', $client->getId(), $topic->getId()));
 					break;
 
 				// Subscribe to topic
@@ -291,7 +293,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 				'message' => $message,
 			]);
 
-			$this->logger->info(sprintf('Message was published to %s topic', $topic->getId()));
+			$this->logger->info(sprintf('Message was pushed to %s topic', $topic->getId()));
 
 		} catch (\Exception $ex) {
 			$context = [

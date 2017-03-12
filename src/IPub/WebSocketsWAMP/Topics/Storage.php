@@ -111,7 +111,7 @@ final class Storage implements IStorage
 			'topic' => $identifier,
 		];
 
-		$this->logger->debug(sprintf('INSERT CLIENT ' . $identifier), $context);
+		$this->logger->debug(sprintf('INSERT TOPIC ' . $identifier), $context);
 
 		try {
 			$result = $this->driver->save($identifier, $topic, $this->ttl);
