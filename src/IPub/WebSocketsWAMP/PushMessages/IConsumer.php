@@ -34,11 +34,11 @@ interface IConsumer
 {
 	/**
 	 * @param EventLoop\LoopInterface $loop
-	 * @param Application\V1\IApplication $application
+	 * @param Application\IApplication $application
 	 *
 	 * @return void
 	 */
-	function connect(EventLoop\LoopInterface $loop, Application\V1\IApplication $application);
+	function connect(EventLoop\LoopInterface $loop, Application\IApplication $application);
 
 	/**
 	 * @return string

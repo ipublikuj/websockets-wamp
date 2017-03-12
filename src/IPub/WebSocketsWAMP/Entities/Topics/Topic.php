@@ -88,7 +88,7 @@ final class Topic implements ITopic
 
 		/** @var WebSocketsEntities\Clients\IClient $client */
 		foreach ($this->subscribers as $client) {
-			if (in_array($client->getParameter('subscribedTopics'), $exclude)) {
+			if (in_array($client->getId(), $exclude)) {
 				continue;
 			}
 
@@ -96,7 +96,7 @@ final class Topic implements ITopic
 				continue;
 			}
 
-			$client->send(Utils\Json::encode([Application\V1\Application::MSG_EVENT, $this->id, $message]));
+			$client->send(Utils\Json::encode([Application\Application::MSG_EVENT, $this->id, $message]));
 		}
 	}
 

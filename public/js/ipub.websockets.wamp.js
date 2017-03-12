@@ -60,6 +60,8 @@
 
                 // Function on connect
                 function (session) {
+                    that.session = session;
+
                     that.events.fire({type: 'socket/connect', data: session});
                 },
 

@@ -45,15 +45,15 @@ final class OnServerStartHandler
 	private $consumersRegistry;
 
 	/**
-	 * @var Application\V1\IApplication
+	 * @var Application\IApplication
 	 */
 	private $application;
 
 	/**
 	 * @param PushMessages\ConsumersRegistry $consumersRegistry
-	 * @param Application\V1\IApplication $application
+	 * @param Application\IApplication $application
 	 */
-	public function __construct(PushMessages\ConsumersRegistry $consumersRegistry, Application\V1\IApplication $application)
+	public function __construct(PushMessages\ConsumersRegistry $consumersRegistry, Application\IApplication $application)
 	{
 		$this->consumersRegistry = $consumersRegistry;
 		$this->application = $application;

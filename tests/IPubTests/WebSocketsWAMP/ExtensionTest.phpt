@@ -44,7 +44,7 @@ class ExtensionTest extends Tester\TestCase
 		Assert::true($dic->getService('webSocketsWAMP.topics.driver.memory') instanceof WebSocketsWAMP\Topics\Drivers\InMemory);
 		Assert::true($dic->getService('webSocketsWAMP.topics.storage') instanceof WebSocketsWAMP\Topics\IStorage);
 
-		Assert::true($dic->getService('webSocketsWAMP.application') instanceof WebSocketsWAMP\Application\V1\IApplication);
+		Assert::true($dic->getService('webSocketsWAMP.application') instanceof WebSocketsWAMP\Application\IApplication);
 
 		Assert::true($dic->getService('webSocketsWAMP.serializer') instanceof WebSocketsWAMP\Serializers\PushMessageSerializer);
 		Assert::true($dic->getService('webSocketsWAMP.push.registry') instanceof WebSocketsWAMP\PushMessages\ConsumersRegistry);

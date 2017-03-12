@@ -39,6 +39,6 @@ class Client extends WebSocketsEntities\Clients\Client implements IClient
 	 */
 	public function event(Entities\Topics\ITopic $topic, $message)
 	{
-		$this->send(Utils\Json::encode([Application\V1\Application::MSG_EVENT, (string) $topic, $message]));
+		$this->send(Utils\Json::encode([Application\Application::MSG_EVENT, (string) $topic, $message]));
 	}
 }

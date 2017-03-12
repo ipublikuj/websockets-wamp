@@ -49,7 +49,6 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 	 * @var array
 	 */
 	private $defaults = [
-		'version' => 'v1',    // v1|v2
 		'storage' => [
 			'topics'  => [
 				'driver' => '@topics.driver.memory',
@@ -70,25 +69,23 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 		/** @var array $configuration */
 		$configuration = $this->getConfig($this->defaults);
 
-		if ($configuration['version'] === 'v1') {
-			if ($configuration['storage']['topics']['driver'] === '@topics.driver.memory') {
-				$storageDriver = $builder->addDefinition($this->prefix('topics.driver.memory'))
-					->setClass(Topics\Drivers\InMemory::class);
+		if ($configuration['storage']['topics']['driver'] === '@topics.driver.memory') {
+			$storageDriver = $builder->addDefinition($this->prefix('topics.driver.memory'))
+				->setClass(Topics\Drivers\InMemory::class);
 
-			} else {
-				$storageDriver = $builder->getDefinition($this->prefix('topics.driver.memory'));
-			}
-
-			$builder->addDefinition($this->prefix('topics.storage'))
-				->setClass(Topics\Storage::class)
-				->setArguments([
-					'ttl' => $configuration['storage']['topics']['ttl'],
-				])
-				->addSetup('?->setStorageDriver(?)', ['@' . $this->prefix('topics.storage'), $storageDriver]);
-
-			$builder->addDefinition($this->prefix('application'))
-				->setClass(Application\V1\Application::class);
+		} else {
+			$storageDriver = $builder->getDefinition($this->prefix('topics.driver.memory'));
 		}
+
+		$builder->addDefinition($this->prefix('topics.storage'))
+			->setClass(Topics\Storage::class)
+			->setArguments([
+				'ttl' => $configuration['storage']['topics']['ttl'],
+			])
+			->addSetup('?->setStorageDriver(?)', ['@' . $this->prefix('topics.storage'), $storageDriver]);
+
+		$builder->addDefinition($this->prefix('application'))
+			->setClass(Application\Application::class);
 
 		$builder->addDefinition($this->prefix('serializer'))
 			->setClass(Serializers\PushMessageSerializer::class);

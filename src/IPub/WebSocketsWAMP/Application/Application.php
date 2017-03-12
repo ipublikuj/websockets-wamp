@@ -14,7 +14,7 @@
 
 declare(strict_types = 1);
 
-namespace IPub\WebSocketsWAMP\Application\V1;
+namespace IPub\WebSocketsWAMP\Application;
 
 use Nette\Diagnostics\Debugger;
 use Nette\Http;
@@ -143,17 +143,20 @@ final class Application extends WebSocketsApplication\Application implements IAp
 					array_shift($json);
 
 					$rpcId = array_shift($json);
-					$topic = array_shift($json);
+					$topicId = array_shift($json);
+
+					$topic = $this->getTopic($topicId);
 
 					if (count($json) === 1 && is_array($json[0])) {
 						$json = $json[0];
 					}
 
-					$httpRequest = $this->modifyRequest($httpRequest, $this->getTopic($topic), 'call');
+					$httpRequest = $this->modifyRequest($httpRequest, $topic, 'call');
 
 					try {
 						$response = $this->processMessage($httpRequest, [
 							'client' => $client,
+							'topic'  => $topic,
 							'rpcId'  => $rpcId,
 							'args'   => $json,
 						]);
@@ -161,7 +164,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 						$client->send(Utils\Json::encode([self::MSG_CALL_RESULT, $rpcId, $response]));
 
 					} catch (\Exception $ex) {
-						$data = [self::MSG_CALL_ERROR, $rpcId, $topic, $ex->getMessage(), [
+						$data = [self::MSG_CALL_ERROR, $rpcId, $topicId, $ex->getMessage(), [
 							'code'   => $ex->getCode(),
 							'rpc'    => $topic,
 							'params' => $json,

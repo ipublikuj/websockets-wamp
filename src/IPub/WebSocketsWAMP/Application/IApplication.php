@@ -14,7 +14,7 @@
 
 declare(strict_types = 1);
 
-namespace IPub\WebSocketsWAMP\Application\V1;
+namespace IPub\WebSocketsWAMP\Application;
 
 use IPub;
 use IPub\WebSocketsWAMP\Entities;
