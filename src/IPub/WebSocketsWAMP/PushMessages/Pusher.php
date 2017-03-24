@@ -5,7 +5,7 @@
  * @copyright      More in license.md
  * @license        http://www.ipublikuj.eu
  * @author         Adam Kadlec http://www.ipublikuj.eu
- * @package        iPublikuj:WebSocketWAMP!
+ * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     PushMessages
  * @since          1.0.0
  *
@@ -27,7 +27,7 @@ use IPub\WebSockets\Router as WebSocketsRouter;
 /**
  * Server message pusher
  *
- * @package        iPublikuj:WebSocketWAMP!
+ * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     PushMessages
  *
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>

@@ -5,7 +5,7 @@
  * @copyright      More in license.md
  * @license        http://www.ipublikuj.eu
  * @author         Adam Kadlec http://www.ipublikuj.eu
- * @package        iPublikuj:WebSocketWAMP!
+ * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     Entities
  * @since          1.0.0
  *
@@ -27,7 +27,7 @@ use IPub\WebSockets\Entities as WebSocketsEntities;
 /**
  * WAMP single client connection
  *
- * @package        iPublikuj:WebSocketWAMP!
+ * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     Entities
  *
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>

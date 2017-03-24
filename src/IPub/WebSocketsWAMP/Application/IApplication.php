@@ -5,7 +5,7 @@
  * @copyright      More in license.md
  * @license        http://www.ipublikuj.eu
  * @author         Adam Kadlec http://www.ipublikuj.eu
- * @package        iPublikuj:WebSocketWAMP!
+ * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     Application
  * @since          1.0.0
  *
@@ -24,7 +24,7 @@ use IPub\WebSockets\Application as WebSocketsApplication;
 /**
  * WebSockets WAMP application interface
  *
- * @package        iPublikuj:WebSocketWAMP!
+ * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     Application
  *
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
@@ -37,5 +37,5 @@ interface IApplication extends WebSocketsApplication\IApplication
 	 *
 	 * @return mixed
 	 */
-	function onPush(Entities\PushMessages\IMessage $message, string $provider);
+	function handlePush(Entities\PushMessages\IMessage $message, string $provider);
 }

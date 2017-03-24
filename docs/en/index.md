@@ -4,17 +4,17 @@ This extension is implementing WAMP protocol into [ipub/websockets](https://gith
 
 ## Installation
 
-The best way to install ipub/websockets-zmq is using  [Composer](http://getcomposer.org/):
+The best way to install ipub/websockets-wamp is using  [Composer](http://getcomposer.org/):
 
 ```sh
-$ composer require ipub/websockets-zmq
+$ composer require ipub/websockets-wamp
 ```
 
 After that you have to register extension in config.neon.
 
 ```neon
 extensions:
-	webSocketsZMQ: IPub\WebSocketsZMQ\DI\WebSocketsZMQExtension
+	webSocketsWAMP: IPub\WebSocketsWAMP\DI\WebSocketsWAMPExtension
 ```
 
 ## Usage

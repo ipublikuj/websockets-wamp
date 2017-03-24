@@ -5,7 +5,7 @@
  * @copyright      More in license.md
  * @license        http://www.ipublikuj.eu
  * @author         Adam Kadlec http://www.ipublikuj.eu
- * @package        iPublikuj:WebSocketWAMP!
+ * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     Serializers
  * @since          1.0.0
  *
@@ -26,7 +26,7 @@ use IPub\WebSocketsWAMP\Entities;
 /**
  * Push message data serializer
  *
- * @package        iPublikuj:WebSocketWAMP!
+ * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     Serializers
  *
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>

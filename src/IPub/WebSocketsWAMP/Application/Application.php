@@ -5,7 +5,7 @@
  * @copyright      More in license.md
  * @license        http://www.ipublikuj.eu
  * @author         Adam Kadlec http://www.ipublikuj.eu
- * @package        iPublikuj:WebSocketWAMP!
+ * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     Application
  * @since          1.0.0
  *
@@ -38,10 +38,12 @@ use IPub\WebSockets\Server as WebSocketsServer;
  * Application which run on server and provide creating controllers
  * with correctly params - convert message => control
  *
- * @package        iPublikuj:WebSocketWAMP!
+ * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     Application
  *
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
+ *
+ * @method onPush(Entities\PushMessages\IMessage $message, string $provider, Entities\Topics\ITopic $topic)
  */
 final class Application extends WebSocketsApplication\Application implements IApplication
 {
@@ -54,6 +56,11 @@ final class Application extends WebSocketsApplication\Application implements IAp
 	const MSG_UNSUBSCRIBE = 6;
 	const MSG_PUBLISH = 7;
 	const MSG_EVENT = 8;
+
+	/**
+	 * @var \Closure
+	 */
+	public $onPush = [];
 
 	/**
 	 * @var \SplObjectStorage
@@ -87,7 +94,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 	/**
 	 * {@inheritdoc}
 	 */
-	public function onOpen(WebSocketsEntities\Clients\IClient $client, WebSocketsHttp\IRequest $httpRequest)
+	public function handleOpen(WebSocketsEntities\Clients\IClient $client, WebSocketsHttp\IRequest $httpRequest)
 	{
 		$client->addParameter('wampSession', str_replace('.', '', uniqid((string) mt_rand(), TRUE)));
 
@@ -101,15 +108,15 @@ final class Application extends WebSocketsApplication\Application implements IAp
 
 		$this->subscriptions = new \SplObjectStorage;
 
-		parent::onOpen($client, $httpRequest);
+		parent::handleOpen($client, $httpRequest);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function onClose(WebSocketsEntities\Clients\IClient $client, WebSocketsHttp\IRequest $httpRequest)
+	public function handleClose(WebSocketsEntities\Clients\IClient $client, WebSocketsHttp\IRequest $httpRequest)
 	{
-		parent::onClose($client, $httpRequest);
+		parent::handleClose($client, $httpRequest);
 
 		foreach ($this->topicsStorage as $topic) {
 			$this->cleanTopic($topic, $client);
@@ -119,8 +126,10 @@ final class Application extends WebSocketsApplication\Application implements IAp
 	/**
 	 * {@inheritdoc}
 	 */
-	public function onMessage(WebSocketsEntities\Clients\IClient $client, WebSocketsHttp\IRequest $httpRequest, string $message)
+	public function handleMessage(WebSocketsEntities\Clients\IClient $client, WebSocketsHttp\IRequest $httpRequest, string $message)
 	{
+		parent::handleMessage($client, $httpRequest, $message);
+
 		try {
 			$json = Utils\Json::decode($message);
 
@@ -273,7 +282,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 	/**
 	 * {@inheritdoc}
 	 */
-	public function onPush(Entities\PushMessages\IMessage $message, string $provider)
+	public function handlePush(Entities\PushMessages\IMessage $message, string $provider)
 	{
 		try {
 			$topic = $this->getTopic($message->getTopic());
@@ -294,6 +303,8 @@ final class Application extends WebSocketsApplication\Application implements IAp
 			]);
 
 			$this->logger->info(sprintf('Message was pushed to %s topic', $topic->getId()));
+
+			$this->onPush($message, $provider, $topic);
 
 		} catch (\Exception $ex) {
 			$context = [

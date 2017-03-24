@@ -5,7 +5,7 @@
  * @copyright      More in license.md
  * @license        http://www.ipublikuj.eu
  * @author         Adam Kadlec http://www.ipublikuj.eu
- * @package        iPublikuj:WebSocketWAMP!
+ * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     Topics
  * @since          1.0.0
  *
@@ -21,7 +21,7 @@ use Nette;
 /**
  * Classic memory topic storage driver
  *
- * @package        iPublikuj:WebSocketWAMP!
+ * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     Topics
  *
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
