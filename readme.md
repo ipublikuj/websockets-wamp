@@ -21,6 +21,7 @@ After that you have to register extension in config.neon.
 
 ```neon
 extensions:
+	webSockets: IPub\WebSockets\DI\WebSocketsExtension
 	webSocketsWAMP: IPub\WebSocketsWAMP\DI\WebSocketsWAMPExtension
 ```
 
