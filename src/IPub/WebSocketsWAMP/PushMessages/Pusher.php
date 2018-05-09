@@ -3,8 +3,8 @@
  * Pusher.php
  *
  * @copyright      More in license.md
- * @license        http://www.ipublikuj.eu
- * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @license        https://www.ipublikuj.eu
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     PushMessages
  * @since          1.0.0
@@ -18,7 +18,6 @@ namespace IPub\WebSocketsWAMP\PushMessages;
 
 use Nette;
 
-use IPub;
 use IPub\WebSocketsWAMP\Entities;
 use IPub\WebSocketsWAMP\Serializers;
 
@@ -77,7 +76,7 @@ abstract class Pusher implements IPusher
 	/**
 	 * {@inheritdoc}
 	 */
-	public function push($data, $destination, array $routeParameters = [], array $context = [])
+	public function push($data, $destination, array $routeParameters = [], array $context = []) : string
 	{
 		$channel = $this->linkGenerator->link($destination, $routeParameters);
 
@@ -89,7 +88,7 @@ abstract class Pusher implements IPusher
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setConnected(bool $bool = TRUE)
+	public function setConnected(bool $bool = TRUE) : void
 	{
 		$this->connected = $bool;
 	}
@@ -116,5 +115,5 @@ abstract class Pusher implements IPusher
 	 *
 	 * @return string
 	 */
-	abstract protected function doPush(string $data, array $context = []);
+	abstract protected function doPush(string $data, array $context = []) : string;
 }

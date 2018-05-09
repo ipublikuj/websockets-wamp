@@ -3,8 +3,8 @@
  * ITopic.php
  *
  * @copyright      More in license.md
- * @license        http://www.ipublikuj.eu
- * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @license        https://www.ipublikuj.eu
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     Entities
  * @since          1.0.0
@@ -16,7 +16,6 @@ declare(strict_types = 1);
 
 namespace IPub\WebSocketsWAMP\Entities\Topics;
 
-use IPub;
 use IPub\WebSockets\Application\Responses;
 use IPub\WebSockets\Entities;
 
@@ -44,7 +43,7 @@ interface ITopic extends \IteratorAggregate, \Countable
 	 *
 	 * @return void
 	 */
-	function broadcast($message, array $exclude = [], array $eligible = []);
+	function broadcast($message, array $exclude = [], array $eligible = []) : void;
 
 	/**
 	 * @param  Entities\Clients\IClient $client
@@ -58,24 +57,24 @@ interface ITopic extends \IteratorAggregate, \Countable
 	 *
 	 * @return void
 	 */
-	function add(Entities\Clients\IClient $client);
+	function add(Entities\Clients\IClient $client) : void;
 
 	/**
 	 * @param Entities\Clients\IClient $client
 	 *
 	 * @return void
 	 */
-	function remove(Entities\Clients\IClient $client);
+	function remove(Entities\Clients\IClient $client) : void;
 
 	/**
 	 * @return void
 	 */
-	function enableAutoDelete();
+	function enableAutoDelete() : void;
 
 	/**
 	 * @return void
 	 */
-	function disableAutoDelete();
+	function disableAutoDelete() : void;
 
 	/**
 	 * @return bool

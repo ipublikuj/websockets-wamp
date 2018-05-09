@@ -3,8 +3,8 @@
  * WebSocketsWAMPExtension.php
  *
  * @copyright      More in license.md
- * @license        http://www.ipublikuj.eu
- * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @license        https://www.ipublikuj.eu
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     DI
  * @since          1.0.0
@@ -19,7 +19,6 @@ namespace IPub\WebSocketsWAMP\DI;
 use Nette;
 use Nette\DI;
 
-use IPub;
 use IPub\WebSocketsWAMP;
 use IPub\WebSocketsWAMP\Application;
 use IPub\WebSocketsWAMP\Clients;
@@ -60,7 +59,7 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 	/**
 	 * {@inheritdoc}
 	 */
-	public function loadConfiguration()
+	public function loadConfiguration() : void
 	{
 		parent::loadConfiguration();
 
@@ -71,31 +70,31 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 
 		if ($configuration['storage']['topics']['driver'] === '@topics.driver.memory') {
 			$storageDriver = $builder->addDefinition($this->prefix('topics.driver.memory'))
-				->setClass(Topics\Drivers\InMemory::class);
+				->setType(Topics\Drivers\InMemory::class);
 
 		} else {
 			$storageDriver = $builder->getDefinition($this->prefix('topics.driver.memory'));
 		}
 
 		$builder->addDefinition($this->prefix('topics.storage'))
-			->setClass(Topics\Storage::class)
+			->setType(Topics\Storage::class)
 			->setArguments([
 				'ttl' => $configuration['storage']['topics']['ttl'],
 			])
 			->addSetup('?->setStorageDriver(?)', ['@' . $this->prefix('topics.storage'), $storageDriver]);
 
 		$builder->addDefinition($this->prefix('application'))
-			->setClass(Application\Application::class);
+			->setType(Application\Application::class);
 
 		$builder->addDefinition($this->prefix('serializer'))
-			->setClass(Serializers\PushMessageSerializer::class);
+			->setType(Serializers\PushMessageSerializer::class);
 
 		/**
 		 * PUSH NOTIFICATION
 		 */
 
 		$builder->addDefinition($this->prefix('push.registry'))
-			->setClass(PushMessages\ConsumersRegistry::class);
+			->setType(PushMessages\ConsumersRegistry::class);
 
 		/**
 		 * CLIENTS
@@ -104,14 +103,14 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 		$builder->removeDefinition($builder->getByType(WebSocketsClients\IClientFactory::class));
 
 		$builder->addDefinition($this->prefix('clients.factory'))
-			->setClass(Clients\ClientFactory::class);
+			->setType(Clients\ClientFactory::class);
 
 		/**
 		 * EVENTS
 		 */
 
 		$builder->addDefinition($this->prefix('events.onServerStart'))
-			->setClass(Events\OnServerStartHandler::class);
+			->setType(Events\OnServerStartHandler::class);
 
 		$server = $builder->getDefinitionByType(WebSocketsServer\Server::class);
 		$server->addSetup('$service->onStart[] = ?', ['@' . $this->prefix('events.onServerStart')]);
@@ -120,7 +119,7 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 	/**
 	 * {@inheritdoc}
 	 */
-	public function beforeCompile()
+	public function beforeCompile() : void
 	{
 		parent::beforeCompile();
 
@@ -142,7 +141,7 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 	 *
 	 * @return void
 	 */
-	public static function register(Nette\Configurator $config, string $extensionName = 'webSocketsWAMP')
+	public static function register(Nette\Configurator $config, string $extensionName = 'webSocketsWAMP') : void
 	{
 		$config->onCompile[] = function (Nette\Configurator $config, DI\Compiler $compiler) use ($extensionName) {
 			$compiler->addExtension($extensionName, new WebSocketsWAMPExtension());

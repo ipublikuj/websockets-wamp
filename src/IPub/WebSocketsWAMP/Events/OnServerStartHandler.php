@@ -3,8 +3,8 @@
  * OnServerStartHandler.php
  *
  * @copyright      More in license.md
- * @license        http://www.ipublikuj.eu
- * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @license        https://www.ipublikuj.eu
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     Events
  * @since          1.0.0
@@ -20,7 +20,6 @@ use Nette;
 
 use React\EventLoop\LoopInterface;
 
-use IPub;
 use IPub\WebSocketsWAMP\Application;
 use IPub\WebSocketsWAMP\PushMessages;
 
@@ -62,7 +61,7 @@ final class OnServerStartHandler
 	/**
 	 * @param LoopInterface $eventLoop
 	 */
-	public function __invoke(LoopInterface $eventLoop)
+	public function __invoke(LoopInterface $eventLoop) : void
 	{
 		/** @var PushMessages\IConsumer $consumer */
 		foreach ($this->consumersRegistry->getConsumers() as $consumer) {

@@ -2,7 +2,7 @@
  * ipub.websockets.wamp.js
  *
  * @copyright      More in license.md
- * @license        http://www.ipublikuj.eu
+ * @license        https://www.ipublikuj.eu
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  * @package        iPublikuj:WebSocket!
  * @subpackage     java-script
@@ -23,11 +23,11 @@
  */
 ;(function ($, window) {
     /* jshint laxbreak: true, expr: true */
-    "use strict";
+    'use strict';
 
     var IPub = window.IPub || {};
 
-    IPub.WebSockets = {}
+    IPub.WebSockets = {};
 
     /**
      * WebSockets wamp extension definition
@@ -108,7 +108,7 @@
          * @param {String} event
          */
         fire: function (event) {
-            if (typeof event == "string") {
+            if (typeof event === 'string') {
                 event = {
                     type: event
                 };
@@ -119,7 +119,7 @@
             }
 
             if (!event.type) {  // Falsy
-                throw new Error("Event object missing 'type' property.");
+                throw new Error('Event object missing \'type\' property.');
             }
 
             if (this.listeners[event.type] instanceof Array) {
@@ -138,7 +138,7 @@
          * @param {function} listener
          */
         on: function (type, listener) {
-            if (typeof this.listeners[type] == "undefined") {
+            if (typeof this.listeners[type] === 'undefined') {
                 this.listeners[type] = [];
             }
 

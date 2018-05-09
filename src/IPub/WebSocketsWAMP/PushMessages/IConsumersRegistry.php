@@ -3,8 +3,8 @@
  * IConsumersRegistry.php
  *
  * @copyright      More in license.md
- * @license        http://www.ipublikuj.eu
- * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @license        https://www.ipublikuj.eu
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     PushMessages
  * @since          1.0.0
@@ -31,7 +31,7 @@ interface IConsumersRegistry
 	 *
 	 * @return void
 	 */
-	function addConsumer(IConsumer $consumer);
+	function addConsumer(IConsumer $consumer) : void;
 
 	/**
 	 * @param string $name
