@@ -3,8 +3,8 @@
  * Topic.php
  *
  * @copyright      More in license.md
- * @license        http://www.ipublikuj.eu
- * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @license        https://www.ipublikuj.eu
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     Entities
  * @since          1.0.0
@@ -19,7 +19,6 @@ namespace IPub\WebSocketsWAMP\Entities\Topics;
 use Nette;
 use Nette\Utils;
 
-use IPub;
 use IPub\WebSocketsWAMP\Application;
 use IPub\WebSocketsWAMP\Exceptions;
 
@@ -78,7 +77,7 @@ final class Topic implements ITopic
 	/**
 	 * {@inheritdoc}
 	 */
-	public function broadcast($message, array $exclude = [], array $eligible = [])
+	public function broadcast($message, array $exclude = [], array $eligible = []) : void
 	{
 		if (!is_string($message) && !$message instanceof WebSocketsApplication\Responses\IResponse) {
 			throw new Exceptions\InvalidArgumentException(sprintf('Provided message for broadcasting have to be string or instance of "%s"', WebSocketsApplication\Responses\IResponse::class));
@@ -111,7 +110,7 @@ final class Topic implements ITopic
 	/**
 	 * {@inheritdoc}
 	 */
-	public function add(WebSocketsEntities\Clients\IClient $client)
+	public function add(WebSocketsEntities\Clients\IClient $client) : void
 	{
 		$this->subscribers->attach($client);
 	}
@@ -119,7 +118,7 @@ final class Topic implements ITopic
 	/**
 	 * {@inheritdoc}
 	 */
-	public function remove(WebSocketsEntities\Clients\IClient $client)
+	public function remove(WebSocketsEntities\Clients\IClient $client) : void
 	{
 		if ($this->subscribers->contains($client)) {
 			$this->subscribers->detach($client);
@@ -145,7 +144,7 @@ final class Topic implements ITopic
 	/**
 	 * {@inheritdoc}
 	 */
-	public function enableAutoDelete()
+	public function enableAutoDelete() : void
 	{
 		$this->autoDelete = TRUE;
 	}
@@ -153,7 +152,7 @@ final class Topic implements ITopic
 	/**
 	 * {@inheritdoc}
 	 */
-	public function disableAutoDelete()
+	public function disableAutoDelete() : void
 	{
 		$this->autoDelete = FALSE;
 	}

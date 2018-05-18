@@ -10,7 +10,7 @@
 		{
 			"name"		: "iPublikuj:cms",
 			"email"		: "info@ipublikuj.eu",
-			"homepage"	: "http://www.ipublikuj.eu/"
+			"homepage"	: "https://www.ipublikuj.eu/"
 		}
 	],
 
@@ -30,16 +30,16 @@
 	},
 
 	"require": {
-		"php"	: ">=7.0.0",
+		"php"	: ">=7.1.0",
+
+		"psr/log"	: "~1.0",
 
 		"nette/di"			: "~2.4",
 		"nette/utils"		: "~2.4",
 
-		"symfony/serializer"	: "~3.2",
+		"symfony/serializer": "^3.0 || ^4.0",
 
-		"ipub/websockets": "~1.0.5",
-
-		"psr/log"	: "~1.0"
+		"ipub/websockets": "~1.0.7"
 	},
 
 	"require-dev": {
@@ -47,11 +47,11 @@
 		"nette/mail"			: "~2.4",
 		"nette/robot-loader"	: "~2.4",
 		"nette/safe-stream"		: "~2.3",
-		"nette/tester"			: "@dev",
+		"nette/tester"			: "~2.0",
 
-		"tracy/tracy"	: "@dev",
+		"tracy/tracy"	: "~2.4",
 
-		"pds/skeleton"	: "^1.0"
+		"pds/skeleton"	: "~1.0"
 	},
 
 	"autoload": {

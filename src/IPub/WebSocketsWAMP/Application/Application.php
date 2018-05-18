@@ -3,8 +3,8 @@
  * Application.php
  *
  * @copyright      More in license.md
- * @license        http://www.ipublikuj.eu
- * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @license        https://www.ipublikuj.eu
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     Application
  * @since          1.0.0
@@ -16,13 +16,11 @@ declare(strict_types = 1);
 
 namespace IPub\WebSocketsWAMP\Application;
 
-use Nette\Diagnostics\Debugger;
 use Nette\Http;
 use Nette\Utils;
 
 use Psr\Log;
 
-use IPub;
 use IPub\WebSocketsWAMP\Entities;
 use IPub\WebSocketsWAMP\Exceptions;
 use IPub\WebSocketsWAMP\Topics;
@@ -94,7 +92,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 	/**
 	 * {@inheritdoc}
 	 */
-	public function handleOpen(WebSocketsEntities\Clients\IClient $client, WebSocketsHttp\IRequest $httpRequest)
+	public function handleOpen(WebSocketsEntities\Clients\IClient $client, WebSocketsHttp\IRequest $httpRequest) : void
 	{
 		$client->addParameter('wampSession', str_replace('.', '', uniqid((string) mt_rand(), TRUE)));
 
@@ -114,7 +112,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 	/**
 	 * {@inheritdoc}
 	 */
-	public function handleClose(WebSocketsEntities\Clients\IClient $client, WebSocketsHttp\IRequest $httpRequest)
+	public function handleClose(WebSocketsEntities\Clients\IClient $client, WebSocketsHttp\IRequest $httpRequest) : void
 	{
 		parent::handleClose($client, $httpRequest);
 
@@ -126,12 +124,12 @@ final class Application extends WebSocketsApplication\Application implements IAp
 	/**
 	 * {@inheritdoc}
 	 */
-	public function handleMessage(WebSocketsEntities\Clients\IClient $client, WebSocketsHttp\IRequest $httpRequest, string $message)
+	public function handleMessage(WebSocketsEntities\Clients\IClient $client, WebSocketsHttp\IRequest $httpRequest, string $message) : void
 	{
 		parent::handleMessage($client, $httpRequest, $message);
 
 		try {
-			$json = Utils\Json::decode($message);
+			$json = Utils\Json::decode($message, Utils\Json::FORCE_ARRAY);
 
 			if ($json === NULL || !is_array($json) || $json !== array_values($json)) {
 				throw new Exceptions\InvalidArgumentException('Invalid WAMP message format');
@@ -170,7 +168,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 							'args'   => $json,
 						]);
 
-						$client->send(Utils\Json::encode([self::MSG_CALL_RESULT, $rpcId, $response]));
+						$client->send(Utils\Json::encode([self::MSG_CALL_RESULT, $rpcId, $response->create()]));
 
 					} catch (\Exception $ex) {
 						$data = [self::MSG_CALL_ERROR, $rpcId, $topicId, $ex->getMessage(), [
@@ -282,7 +280,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 	/**
 	 * {@inheritdoc}
 	 */
-	public function handlePush(Entities\PushMessages\IMessage $message, string $provider)
+	public function handlePush(Entities\PushMessages\IMessage $message, string $provider) : void
 	{
 		try {
 			$topic = $this->getTopic($message->getTopic());
@@ -345,7 +343,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 	 *
 	 * @return void
 	 */
-	private function cleanTopic(Entities\Topics\ITopic $topic, WebSocketsEntities\Clients\IClient $client)
+	private function cleanTopic(Entities\Topics\ITopic $topic, WebSocketsEntities\Clients\IClient $client) : void
 	{
 		$subscribedTopics = $client->getParameter('subscribedTopics', new \SplObjectStorage());
 

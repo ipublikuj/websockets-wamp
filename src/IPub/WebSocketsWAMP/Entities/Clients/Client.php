@@ -3,8 +3,8 @@
  * IClient.php
  *
  * @copyright      More in license.md
- * @license        http://www.ipublikuj.eu
- * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @license        https://www.ipublikuj.eu
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:WebSocketsWAMP!
  * @subpackage     Entities
  * @since          1.0.0
@@ -18,7 +18,6 @@ namespace IPub\WebSocketsWAMP\Entities\Clients;
 
 use Nette\Utils;
 
-use IPub;
 use IPub\WebSocketsWAMP\Application;
 use IPub\WebSocketsWAMP\Entities;
 
@@ -37,7 +36,7 @@ class Client extends WebSocketsEntities\Clients\Client implements IClient
 	/**
 	 * {@inheritdoc}
 	 */
-	public function event(Entities\Topics\ITopic $topic, $message)
+	public function event(Entities\Topics\ITopic $topic, $message) : void
 	{
 		$this->send(Utils\Json::encode([Application\Application::MSG_EVENT, (string) $topic, $message]));
 	}
