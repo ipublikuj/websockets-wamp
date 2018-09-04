@@ -39,7 +39,7 @@
 
 		"symfony/serializer": "^3.0 || ^4.0",
 
-		"ipub/websockets": "~1.0.7"
+		"ipub/websockets": "~1.0.9"
 	},
 
 	"require-dev": {
