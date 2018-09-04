@@ -95,7 +95,7 @@ final class Topic implements ITopic
 				continue;
 			}
 
-			$client->send(Utils\Json::encode([Application\Application::MSG_EVENT, $this->id, $message]));
+			$client->send(Utils\Json::encode([Application\Application::MSG_EVENT, $this->id, (string) $message]));
 		}
 	}
 

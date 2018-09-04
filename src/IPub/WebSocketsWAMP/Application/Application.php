@@ -173,7 +173,6 @@ final class Application extends WebSocketsApplication\Application implements IAp
 					} catch (\Exception $ex) {
 						$data = [self::MSG_CALL_ERROR, $rpcId, $topicId, $ex->getMessage(), [
 							'code'   => $ex->getCode(),
-							'rpc'    => $topic,
 							'params' => $json,
 						]];
 
