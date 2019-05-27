@@ -28,6 +28,7 @@ use IPub\WebSocketsWAMP\Topics;
 use IPub\WebSockets\Application as WebSocketsApplication;
 use IPub\WebSockets\Clients as WebSocketsClients;
 use IPub\WebSockets\Entities as WebSocketsEntities;
+use IPub\WebSockets\Exceptions as WebSocketsExceptions;
 use IPub\WebSockets\Http as WebSocketsHttp;
 use IPub\WebSockets\Router as WebSocketsRouter;
 use IPub\WebSockets\Server as WebSocketsServer;
@@ -170,6 +171,9 @@ final class Application extends WebSocketsApplication\Application implements IAp
 
 						$client->send(Utils\Json::encode([self::MSG_CALL_RESULT, $rpcId, $response->create()]));
 
+					} catch (WebSocketsExceptions\TerminateException $ex) {
+						throw $ex;
+
 					} catch (\Exception $ex) {
 						$data = [self::MSG_CALL_ERROR, $rpcId, $topicId, $ex->getMessage(), [
 							'code'   => $ex->getCode(),
@@ -269,6 +273,9 @@ final class Application extends WebSocketsApplication\Application implements IAp
 					throw new Exceptions\InvalidArgumentException('Invalid WAMP message type');
 			}
 
+		} catch (WebSocketsExceptions\TerminateException $ex) {
+			throw $ex;
+
 		} catch (\Exception $ex) {
 			$this->logger->error(sprintf('An error (%s) has occurred: %s', $ex->getCode(), $ex->getMessage()));
 
@@ -302,6 +309,9 @@ final class Application extends WebSocketsApplication\Application implements IAp
 			$this->logger->info(sprintf('Message was pushed to %s topic', $topic->getId()));
 
 			$this->onPush($message, $provider, $topic);
+
+		} catch (WebSocketsExceptions\TerminateException $ex) {
+			throw $ex;
 
 		} catch (\Exception $ex) {
 			$context = [
