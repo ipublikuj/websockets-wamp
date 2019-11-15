@@ -19,6 +19,8 @@ namespace IPub\WebSocketsWAMP\DI;
 use Nette;
 use Nette\DI;
 
+use Symfony\Component\EventDispatcher;
+
 use IPub\WebSocketsWAMP;
 use IPub\WebSocketsWAMP\Application;
 use IPub\WebSocketsWAMP\Clients;
