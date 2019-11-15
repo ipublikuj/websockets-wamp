@@ -52,7 +52,7 @@ class ExtensionTest extends Tester\TestCase
 
 		Assert::true($dic->getService('webSocketsWAMP.clients.factory') instanceof WebSocketsWAMP\Clients\ClientFactory);
 
-		Assert::true($dic->getService('webSocketsWAMP.events.onServerStart') instanceof IPub\WebSocketsWAMP\Events\OnServerStartHandler);
+		Assert::true($dic->getService('webSocketsWAMP.subscribers.onServerStart') instanceof IPub\WebSocketsWAMP\Subscribers\OnServerStartHandler);
 	}
 
 	/**

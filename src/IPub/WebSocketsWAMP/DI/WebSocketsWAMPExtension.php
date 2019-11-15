@@ -113,11 +113,11 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 		 * SUBSCRIBERS
 		 */
 
-		$builder->addDefinition($this->prefix('events.onServerStart'))
+		$builder->addDefinition($this->prefix('subscribers.onServerStart'))
 			->setType(Subscribers\OnServerStartHandler::class);
 
 		$server = $builder->getDefinitionByType(WebSocketsServer\Server::class);
-		$server->addSetup('$service->onStart[] = ?', ['@' . $this->prefix('events.onServerStart')]);
+		$server->addSetup('$service->onStart[] = ?', ['@' . $this->prefix('subscribers.onServerStart')]);
 	}
 
 	/**
