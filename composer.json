@@ -62,6 +62,9 @@
 
     "tracy/tracy" : "~2.4",
 
+    "contributte/event-dispatcher": "~0.5",
+    "contributte/console": "~0.6",
+
     "pds/skeleton" : "~1.0"
   },
 

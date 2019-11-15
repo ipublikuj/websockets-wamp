@@ -37,15 +37,15 @@ interface IConsumer
 	 *
 	 * @return void
 	 */
-	function connect(EventLoop\LoopInterface $loop, Application\IApplication $application);
+	public function connect(EventLoop\LoopInterface $loop, Application\IApplication $application);
 
 	/**
 	 * @return string
 	 */
-	function getName() : string;
+	public function getName() : string;
 
 	/**
 	 * @return void
 	 */
-	function close() : void;
+	public function close() : void;
 }

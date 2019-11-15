@@ -32,7 +32,7 @@ interface ITopic extends \IteratorAggregate, \Countable
 	/**
 	 * @return string
 	 */
-	function getId() : string;
+	public function getId() : string;
 
 	/**
 	 * Send a message to all the connections in this topic
@@ -43,41 +43,41 @@ interface ITopic extends \IteratorAggregate, \Countable
 	 *
 	 * @return void
 	 */
-	function broadcast($message, array $exclude = [], array $eligible = []) : void;
+	public function broadcast($message, array $exclude = [], array $eligible = []) : void;
 
 	/**
-	 * @param  Entities\Clients\IClient $client
+	 * @param Entities\Clients\IClient $client
 	 *
 	 * @return bool
 	 */
-	function has(Entities\Clients\IClient $client) : bool;
+	public function has(Entities\Clients\IClient $client) : bool;
 
 	/**
 	 * @param Entities\Clients\IClient $client
 	 *
 	 * @return void
 	 */
-	function add(Entities\Clients\IClient $client) : void;
+	public function add(Entities\Clients\IClient $client) : void;
 
 	/**
 	 * @param Entities\Clients\IClient $client
 	 *
 	 * @return void
 	 */
-	function remove(Entities\Clients\IClient $client) : void;
+	public function remove(Entities\Clients\IClient $client) : void;
 
 	/**
 	 * @return void
 	 */
-	function enableAutoDelete() : void;
+	public function enableAutoDelete() : void;
 
 	/**
 	 * @return void
 	 */
-	function disableAutoDelete() : void;
+	public function disableAutoDelete() : void;
 
 	/**
 	 * @return bool
 	 */
-	function isAutoDeleteEnabled() : bool;
+	public function isAutoDeleteEnabled() : bool;
 }

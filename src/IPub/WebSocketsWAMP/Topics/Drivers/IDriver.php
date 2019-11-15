@@ -33,19 +33,19 @@ interface IDriver
 	 *
 	 * @return Entities\Topics\ITopic|bool
 	 */
-	function fetch(string $id);
+	public function fetch(string $id);
 
 	/**
 	 * @return Entities\Topics\ITopic[]
 	 */
-	function fetchAll() : array;
+	public function fetchAll() : array;
 
 	/**
 	 * @param string $id
 	 *
 	 * @return bool
 	 */
-	function contains(string $id) : bool;
+	public function contains(string $id) : bool;
 
 	/**
 	 * @param string $id
@@ -54,12 +54,12 @@ interface IDriver
 	 *
 	 * @return bool True if saved, false otherwise
 	 */
-	function save(string $id, $data, int $lifeTime = 0) : bool;
+	public function save(string $id, $data, int $lifeTime = 0) : bool;
 
 	/**
 	 * @param string $id
 	 *
 	 * @return bool TRUE if the cache entry was successfully deleted, FALSE otherwise
 	 */
-	function delete(string $id) : bool;
+	public function delete(string $id) : bool;
 }

@@ -29,10 +29,10 @@ interface IMessage
 	/**
 	 * @return string
 	 */
-	function getTopic() : string;
+	public function getTopic() : string;
 
 	/**
 	 * @return array
 	 */
-	function getData() : array;
+	public function getData() : array;
 }

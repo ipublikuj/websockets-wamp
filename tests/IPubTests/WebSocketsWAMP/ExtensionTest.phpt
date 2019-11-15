@@ -1,6 +1,7 @@
 <?php
 /**
  * Test: IPub\WebSocketsWAMP\Extension
+ *
  * @testCase
  *
  * @copyright      More in license.md
@@ -51,7 +52,7 @@ class ExtensionTest extends Tester\TestCase
 
 		Assert::true($dic->getService('webSocketsWAMP.clients.factory') instanceof WebSocketsWAMP\Clients\ClientFactory);
 
-		Assert::true($dic->getService('webSocketsWAMP.events.onServerStart') instanceof IPub\WebSocketsWAMP\Events\OnServerStartHandler);
+		Assert::true($dic->getService('webSocketsWAMP.subscribers.onServerStart') instanceof IPub\WebSocketsWAMP\Subscribers\OnServerStartHandler);
 	}
 
 	/**
@@ -62,7 +63,12 @@ class ExtensionTest extends Tester\TestCase
 		$config = new Nette\Configurator();
 		$config->setTempDirectory(TEMP_DIR);
 
-		$config->addConfig(__DIR__ . DS . 'files' . DS . 'config.neon');
+		if (getenv('NETTE') === 'default') {
+			$config->addConfig(__DIR__ . DS . 'files' . DS . 'config.neon');
+
+		} else {
+			$config->addConfig(__DIR__ . DS . 'files' . DS . 'config24.neon');
+		}
 
 		return $config->createContainer();
 	}

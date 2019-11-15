@@ -31,17 +31,17 @@ interface IConsumersRegistry
 	 *
 	 * @return void
 	 */
-	function addConsumer(IConsumer $consumer) : void;
+	public function addConsumer(IConsumer $consumer) : void;
 
 	/**
 	 * @param string $name
 	 *
 	 * @return IConsumer
 	 */
-	function getConsumer(string $name) : IConsumer;
+	public function getConsumer(string $name) : IConsumer;
 
 	/**
 	 * @return IConsumer[]
 	 */
-	function getConsumers(): array;
+	public function getConsumers() : array;
 }
