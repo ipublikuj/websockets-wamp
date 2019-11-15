@@ -56,7 +56,7 @@ final class ConsumersRegistry implements IConsumersRegistry
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getConsumer(string $name): IConsumer
+	public function getConsumer(string $name) : IConsumer
 	{
 		if (isset($this->consumers[$name])) {
 			return $this->consumers[$name];
@@ -68,7 +68,7 @@ final class ConsumersRegistry implements IConsumersRegistry
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getConsumers(): array
+	public function getConsumers() : array
 	{
 		return $this->consumers;
 	}

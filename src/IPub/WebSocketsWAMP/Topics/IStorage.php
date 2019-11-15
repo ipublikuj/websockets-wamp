@@ -34,21 +34,21 @@ interface IStorage extends \IteratorAggregate
 	 *
 	 * @return void
 	 */
-	function setStorageDriver(Drivers\IDriver $driver) : void;
+	public function setStorageDriver(Drivers\IDriver $driver) : void;
 
 	/**
 	 * @param Entities\Topics\ITopic $topic
 	 *
 	 * @return string
 	 */
-	static function getStorageId(Entities\Topics\ITopic $topic) : string;
+	public static function getStorageId(Entities\Topics\ITopic $topic) : string;
 
 	/**
 	 * @param string $identifier
 	 *
 	 * @return Entities\Topics\ITopic
 	 */
-	function getTopic(string $identifier) : Entities\Topics\ITopic;
+	public function getTopic(string $identifier) : Entities\Topics\ITopic;
 
 	/**
 	 * @param string $identifier
@@ -56,19 +56,19 @@ interface IStorage extends \IteratorAggregate
 	 *
 	 * @return void
 	 */
-	function addTopic(string $identifier, Entities\Topics\ITopic $topic) : void;
+	public function addTopic(string $identifier, Entities\Topics\ITopic $topic) : void;
 
 	/**
 	 * @param string $identifier
 	 *
 	 * @return bool
 	 */
-	function hasTopic(string $identifier) : bool;
+	public function hasTopic(string $identifier) : bool;
 
 	/**
 	 * @param string $identifier
 	 *
 	 * @return bool
 	 */
-	function removeTopic(string $identifier) : bool;
+	public function removeTopic(string $identifier) : bool;
 }

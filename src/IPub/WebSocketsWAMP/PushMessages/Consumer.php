@@ -25,9 +25,6 @@ use Nette;
  * @subpackage     PushMessages
  *
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
- *
- * @method onSuccess(IConsumer $consumer, $data = NULL)
- * @method onFail(IConsumer $consumer, $data = NULL)
  */
 abstract class Consumer implements IConsumer
 {
@@ -35,16 +32,6 @@ abstract class Consumer implements IConsumer
 	 * Implement nette smart magic
 	 */
 	use Nette\SmartObject;
-
-	/**
-	 * @var \Closure
-	 */
-	public $onSuccess = [];
-
-	/**
-	 * @var \Closure
-	 */
-	public $onFail = [];
 
 	/**
 	 * @var string

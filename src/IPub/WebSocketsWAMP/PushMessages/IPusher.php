@@ -36,22 +36,22 @@ interface IPusher
 	 *
 	 * @return void
 	 */
-	function push($data, $destination, array $routeParameters = [], array $context = []) : void;
+	public function push($data, $destination, array $routeParameters = [], array $context = []) : void;
 
 	/**
 	 * @param bool $bool
 	 *
 	 * @return void
 	 */
-	function setConnected(bool $bool = TRUE) : void;
+	public function setConnected(bool $bool = TRUE) : void;
 
 	/**
 	 * @return bool
 	 */
-	function isConnected() : bool;
+	public function isConnected() : bool;
 
 	/**
 	 * @return string
 	 */
-	function getName() : string;
+	public function getName() : string;
 }

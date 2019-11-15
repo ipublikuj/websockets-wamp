@@ -1,6 +1,7 @@
 <?php
 /**
  * Test: IPub\WebSocketsWAMP\Extension
+ *
  * @testCase
  *
  * @copyright      More in license.md
@@ -62,7 +63,12 @@ class ExtensionTest extends Tester\TestCase
 		$config = new Nette\Configurator();
 		$config->setTempDirectory(TEMP_DIR);
 
-		$config->addConfig(__DIR__ . DS . 'files' . DS . 'config.neon');
+		if (getenv('NETTE') === 'default') {
+			$config->addConfig(__DIR__ . DS . 'files' . DS . 'config.neon');
+
+		} else {
+			$config->addConfig(__DIR__ . DS . 'files' . DS . 'config24.neon');
+		}
 
 		return $config->createContainer();
 	}

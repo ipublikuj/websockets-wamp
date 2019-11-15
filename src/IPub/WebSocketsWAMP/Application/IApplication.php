@@ -36,5 +36,5 @@ interface IApplication extends WebSocketsApplication\IApplication
 	 *
 	 * @return void
 	 */
-	function handlePush(Entities\PushMessages\IMessage $message, string $provider) : void;
+	public function handlePush(Entities\PushMessages\IMessage $message, string $provider) : void;
 }

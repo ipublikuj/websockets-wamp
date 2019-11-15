@@ -25,6 +25,7 @@ use IPub\WebSocketsWAMP\Clients;
 use IPub\WebSocketsWAMP\Events;
 use IPub\WebSocketsWAMP\PushMessages;
 use IPub\WebSocketsWAMP\Serializers;
+use IPub\WebSocketsWAMP\Subscribers;
 use IPub\WebSocketsWAMP\Topics;
 
 use IPub\WebSockets\Server as WebSocketsServer;
@@ -37,10 +38,6 @@ use IPub\WebSockets\Clients as WebSocketsClients;
  * @subpackage     DI
  *
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
- *
- * @method DI\ContainerBuilder getContainerBuilder()
- * @method array getConfig(array $default)
- * @method string prefix($id)
  */
 final class WebSocketsWAMPExtension extends DI\CompilerExtension
 {
@@ -48,12 +45,13 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 	 * @var array
 	 */
 	private $defaults = [
-		'storage' => [
-			'topics'  => [
+		'storage'       => [
+			'topics' => [
 				'driver' => '@topics.driver.memory',
 				'ttl'    => 0,
 			],
 		],
+		'symfonyEvents' => FALSE,
 	];
 
 	/**
@@ -66,7 +64,11 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 		/** @var DI\ContainerBuilder $builder */
 		$builder = $this->getContainerBuilder();
 		/** @var array $configuration */
-		$configuration = $this->getConfig($this->defaults);
+		if (method_exists($this, 'validateConfig')) {
+			$configuration = $this->validateConfig($this->defaults);
+		} else {
+			$configuration = $this->getConfig($this->defaults);
+		}
 
 		if ($configuration['storage']['topics']['driver'] === '@topics.driver.memory') {
 			$storageDriver = $builder->addDefinition($this->prefix('topics.driver.memory'))
@@ -106,11 +108,11 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 			->setType(Clients\ClientFactory::class);
 
 		/**
-		 * EVENTS
+		 * SUBSCRIBERS
 		 */
 
 		$builder->addDefinition($this->prefix('events.onServerStart'))
-			->setType(Events\OnServerStartHandler::class);
+			->setType(Subscribers\OnServerStartHandler::class);
 
 		$server = $builder->getDefinitionByType(WebSocketsServer\Server::class);
 		$server->addSetup('$service->onStart[] = ?', ['@' . $this->prefix('events.onServerStart')]);
@@ -125,6 +127,12 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 
 		/** @var DI\ContainerBuilder $builder */
 		$builder = $this->getContainerBuilder();
+		/** @var array $configuration */
+		if (method_exists($this, 'validateConfig')) {
+			$configuration = $this->validateConfig($this->defaults);
+		} else {
+			$configuration = $this->getConfig($this->defaults);
+		}
 
 		$registry = $builder->getDefinition($builder->getByType(PushMessages\ConsumersRegistry::class));
 
@@ -132,6 +140,23 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 
 		foreach ($consumers as $consumer) {
 			$registry->addSetup('?->addConsumer(?)', [$registry, $consumer]);
+		}
+
+		/**
+		 * EVENTS
+		 */
+
+		if ($configuration['symfonyEvents'] === TRUE) {
+			$dispatcher = $builder->getDefinition($builder->getByType(EventDispatcher\EventDispatcherInterface::class));
+
+			$application = $builder->getDefinition($builder->getByType(Application\Application::class));
+			assert($application instanceof DI\ServiceDefinition);
+
+			$application->addSetup('?->onPush[] = function() {?->dispatch(new ?(...func_get_args()));}', [
+				'@self',
+				$dispatcher,
+				new Nette\PhpGenerator\PhpLiteral(Events\Application\PushEvent::class),
+			]);
 		}
 	}
 
