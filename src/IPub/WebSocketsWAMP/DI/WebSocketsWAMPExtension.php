@@ -66,11 +66,7 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 		/** @var DI\ContainerBuilder $builder */
 		$builder = $this->getContainerBuilder();
 		/** @var array $configuration */
-		if (method_exists($this, 'validateConfig')) {
-			$configuration = $this->validateConfig($this->defaults);
-		} else {
-			$configuration = $this->getConfig($this->defaults);
-		}
+		$configuration = $this->validateConfig($this->defaults);
 
 		if ($configuration['storage']['topics']['driver'] === '@topics.driver.memory') {
 			$storageDriver = $builder->addDefinition($this->prefix('topics.driver.memory'))
@@ -130,11 +126,7 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 		/** @var DI\ContainerBuilder $builder */
 		$builder = $this->getContainerBuilder();
 		/** @var array $configuration */
-		if (method_exists($this, 'validateConfig')) {
-			$configuration = $this->validateConfig($this->defaults);
-		} else {
-			$configuration = $this->getConfig($this->defaults);
-		}
+		$configuration = $this->validateConfig($this->defaults);
 
 		$registry = $builder->getDefinition($builder->getByType(PushMessages\ConsumersRegistry::class));
 
