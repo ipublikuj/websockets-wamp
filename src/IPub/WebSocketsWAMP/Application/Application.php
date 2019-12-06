@@ -291,14 +291,14 @@ final class Application extends WebSocketsApplication\Application implements IAp
 		try {
 			$topic = $this->getTopic($message->getTopic());
 
-			$url = new Http\UrlScript($message->getTopic());
-			$action = $url->getQueryParameter(WebSocketsApplication\Controller\Controller::ACTION_KEY, WebSocketsApplication\Controller\Controller::DEFAULT_ACTION);
+			$url = new Http\Url($message->getTopic());
+			$action = $url->getQueryParameter(WebSocketsApplication\Controller\Controller::ACTION_KEY);
 
-			if ($action === WebSocketsApplication\Controller\Controller::DEFAULT_ACTION) {
+			if ($action === NULL || $parsedAction === WebSocketsApplication\Controller\Controller::DEFAULT_ACTION) {
 				$url->setQueryParameter(WebSocketsApplication\Controller\Controller::ACTION_KEY, 'push');
 			}
 
-			$httpRequest = new WebSocketsHttp\Request($url, NULL, NULL, NULL, NULL, NULL, WebSocketsHttp\IRequest::GET);
+			$httpRequest = new WebSocketsHttp\Request(new Http\UrlScript($url), NULL, NULL, NULL, NULL, NULL, WebSocketsHttp\IRequest::GET);
 
 			$this->processMessage($httpRequest, [
 				'topic'   => $topic,
@@ -377,18 +377,21 @@ final class Application extends WebSocketsApplication\Application implements IAp
 	 *
 	 * @return WebSocketsHttp\IRequest
 	 */
-	private function modifyRequest(WebSocketsHttp\IRequest $httpRequest, Entities\Topics\ITopic $topic, string $action) : WebSocketsHttp\IRequest
-	{
-		$url = $httpRequest->getUrl();
+	private function modifyRequest(
+		WebSocketsHttp\IRequest $httpRequest,
+		Entities\Topics\ITopic $topic,
+		string $action
+	) : WebSocketsHttp\IRequest {
+		$url = new Http\Url((string) $httpRequest->getUrl());
 		$url->setPath(rtrim($url->getPath(), '/') . '/' . ltrim($topic->getId(), '/'));
 
-		$parsedAction = $url->getQueryParameter(WebSocketsApplication\Controller\Controller::ACTION_KEY, WebSocketsApplication\Controller\Controller::DEFAULT_ACTION);
+		$parsedAction = $url->getQueryParameter(WebSocketsApplication\Controller\Controller::ACTION_KEY);
 
-		if ($parsedAction === WebSocketsApplication\Controller\Controller::DEFAULT_ACTION) {
+		if ($parsedAction === NULL || $parsedAction === WebSocketsApplication\Controller\Controller::DEFAULT_ACTION) {
 			$url->setQueryParameter(WebSocketsApplication\Controller\Controller::ACTION_KEY, $action);
 		}
 
-		$httpRequest->setUrl($url);
+		$httpRequest->setUrl(new Http\UrlScript($url));
 
 		return $httpRequest;
 	}
