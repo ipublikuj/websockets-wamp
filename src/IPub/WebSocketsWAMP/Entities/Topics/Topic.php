@@ -16,6 +16,8 @@ declare(strict_types = 1);
 
 namespace IPub\WebSocketsWAMP\Entities\Topics;
 
+use SplObjectStorage;
+
 use Nette;
 use Nette\Utils;
 
@@ -53,7 +55,7 @@ final class Topic implements ITopic
 	private $id;
 
 	/**
-	 * @var \SplObjectStorage
+	 * @var SplObjectStorage
 	 */
 	private $subscribers;
 
@@ -63,7 +65,7 @@ final class Topic implements ITopic
 	public function __construct(string $topicId)
 	{
 		$this->id = $topicId;
-		$this->subscribers = new \SplObjectStorage;
+		$this->subscribers = new SplObjectStorage;
 	}
 
 	/**

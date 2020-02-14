@@ -16,6 +16,9 @@ declare(strict_types = 1);
 
 namespace IPub\WebSocketsWAMP\Entities\Topics;
 
+use IteratorAggregate;
+use Countable;
+
 use IPub\WebSockets\Application\Responses;
 use IPub\WebSockets\Entities;
 
@@ -27,7 +30,7 @@ use IPub\WebSockets\Entities;
  *
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  */
-interface ITopic extends \IteratorAggregate, \Countable
+interface ITopic extends IteratorAggregate, Countable
 {
 	/**
 	 * @return string

@@ -18,6 +18,7 @@ namespace IPub\WebSocketsWAMP\Application;
 
 use Closure;
 use SplObjectStorage;
+use Throwable;
 
 use Nette\Http;
 use Nette\Utils;
@@ -181,7 +182,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 					} catch (WebSocketsExceptions\TerminateException $ex) {
 						throw $ex;
 
-					} catch (\Exception $ex) {
+					} catch (Throwable $ex) {
 						$data = [self::MSG_CALL_ERROR, $rpcId, $topicId, $ex->getMessage(), [
 							'code'   => $ex->getCode(),
 							'params' => $json,
@@ -283,7 +284,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 		} catch (WebSocketsExceptions\TerminateException $ex) {
 			throw $ex;
 
-		} catch (\Exception $ex) {
+		} catch (Throwable $ex) {
 			$this->logger->error(sprintf('An error (%s) has occurred: %s', $ex->getCode(), $ex->getMessage()));
 
 			$client->close(1007);
@@ -322,7 +323,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 		} catch (WebSocketsExceptions\TerminateException $ex) {
 			throw $ex;
 
-		} catch (\Exception $ex) {
+		} catch (Throwable $ex) {
 			$context = [
 				'provider' => $provider,
 				'topic'    => $message->getTopic(),
