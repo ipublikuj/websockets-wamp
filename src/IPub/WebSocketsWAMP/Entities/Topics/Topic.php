@@ -76,6 +76,9 @@ final class Topic implements ITopic
 
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @throws Exceptions\InvalidArgumentException
+	 * @throws Utils\JsonException
 	 */
 	public function broadcast($message, array $exclude = [], array $eligible = []) : void
 	{

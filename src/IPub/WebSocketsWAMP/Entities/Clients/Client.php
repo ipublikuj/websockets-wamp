@@ -35,6 +35,8 @@ class Client extends WebSocketsEntities\Clients\Client implements IClient
 {
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @throws Utils\JsonException
 	 */
 	public function event(Entities\Topics\ITopic $topic, $message) : void
 	{

@@ -16,6 +16,9 @@ declare(strict_types = 1);
 
 namespace IPub\WebSocketsWAMP\Application;
 
+use Closure;
+use SplObjectStorage;
+
 use Nette\Http;
 use Nette\Utils;
 
@@ -57,12 +60,12 @@ final class Application extends WebSocketsApplication\Application implements IAp
 	const MSG_EVENT = 8;
 
 	/**
-	 * @var \Closure
+	 * @var Closure
 	 */
 	public $onPush = [];
 
 	/**
-	 * @var \SplObjectStorage
+	 * @var SplObjectStorage
 	 */
 	private $subscriptions;
 
@@ -92,6 +95,8 @@ final class Application extends WebSocketsApplication\Application implements IAp
 
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @throws Utils\JsonException
 	 */
 	public function handleOpen(WebSocketsEntities\Clients\IClient $client, WebSocketsHttp\IRequest $httpRequest) : void
 	{
@@ -105,7 +110,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 			WebSocketsServer\Server::VERSION,
 		]));
 
-		$this->subscriptions = new \SplObjectStorage;
+		$this->subscriptions = new SplObjectStorage;
 
 		parent::handleOpen($client, $httpRequest);
 	}
@@ -124,6 +129,8 @@ final class Application extends WebSocketsApplication\Application implements IAp
 
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @throws WebSocketsExceptions\TerminateException
 	 */
 	public function handleMessage(WebSocketsEntities\Clients\IClient $client, WebSocketsHttp\IRequest $httpRequest, string $message) : void
 	{
@@ -190,7 +197,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 				case static::MSG_SUBSCRIBE:
 					$topic = $this->getTopic($json[1]);
 
-					$subscribedTopics = $client->getParameter('subscribedTopics', new \SplObjectStorage());
+					$subscribedTopics = $client->getParameter('subscribedTopics', new SplObjectStorage());
 
 					if ($subscribedTopics->contains($topic)) {
 						return;
@@ -219,7 +226,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 				case static::MSG_UNSUBSCRIBE:
 					$topic = $this->getTopic($json[1]);
 
-					$subscribedTopics = $client->getParameter('subscribedTopics', new \SplObjectStorage());
+					$subscribedTopics = $client->getParameter('subscribedTopics', new SplObjectStorage());
 
 					if (!$subscribedTopics->contains($topic)) {
 						return;
@@ -285,6 +292,8 @@ final class Application extends WebSocketsApplication\Application implements IAp
 
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @throws WebSocketsExceptions\TerminateException
 	 */
 	public function handlePush(Entities\PushMessages\IMessage $message, string $provider) : void
 	{
@@ -294,7 +303,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 			$url = new Http\Url($message->getTopic());
 			$action = $url->getQueryParameter(WebSocketsApplication\Controller\Controller::ACTION_KEY);
 
-			if ($action === NULL || $parsedAction === WebSocketsApplication\Controller\Controller::DEFAULT_ACTION) {
+			if ($action === NULL || $action === WebSocketsApplication\Controller\Controller::DEFAULT_ACTION) {
 				$url->setQueryParameter(WebSocketsApplication\Controller\Controller::ACTION_KEY, 'push');
 			}
 
@@ -354,7 +363,7 @@ final class Application extends WebSocketsApplication\Application implements IAp
 	 */
 	private function cleanTopic(Entities\Topics\ITopic $topic, WebSocketsEntities\Clients\IClient $client) : void
 	{
-		$subscribedTopics = $client->getParameter('subscribedTopics', new \SplObjectStorage());
+		$subscribedTopics = $client->getParameter('subscribedTopics', new SplObjectStorage());
 
 		if ($subscribedTopics->contains($topic)) {
 			$subscribedTopics->detach($topic);

@@ -16,6 +16,9 @@ declare(strict_types = 1);
 
 namespace IPub\WebSocketsWAMP\Topics;
 
+use ArrayIterator;
+use Throwable;
+
 use Nette;
 
 use Psr\Log;
@@ -82,13 +85,16 @@ final class Storage implements IStorage
 
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @throws Exceptions\StorageException
+	 * @throws Exceptions\TopicNotFoundException
 	 */
 	public function getTopic(string $identifier) : Entities\Topics\ITopic
 	{
 		try {
 			$result = $this->driver->fetch($identifier);
 
-		} catch (\Exception $ex) {
+		} catch (Throwable $ex) {
 			throw new Exceptions\StorageException(sprintf('Driver %s failed', get_class($this)), $ex->getCode(), $ex);
 		}
 
@@ -103,6 +109,8 @@ final class Storage implements IStorage
 
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @throws Exceptions\StorageException
 	 */
 	public function addTopic(string $identifier, Entities\Topics\ITopic $topic) : void
 	{
@@ -115,7 +123,7 @@ final class Storage implements IStorage
 		try {
 			$result = $this->driver->save($identifier, $topic, $this->ttl);
 
-		} catch (\Exception $ex) {
+		} catch (Throwable $ex) {
 			throw new Exceptions\StorageException(sprintf('Driver %s failed', get_class($this)), $ex->getCode(), $ex);
 		}
 
@@ -126,13 +134,15 @@ final class Storage implements IStorage
 
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @throws Exceptions\StorageException
 	 */
 	public function hasTopic(string $identifier) : bool
 	{
 		try {
 			$result = $this->driver->contains($identifier);
 
-		} catch (\Exception $ex) {
+		} catch (Throwable $ex) {
 			throw new Exceptions\StorageException(sprintf('Driver %s failed', get_class($this)), $ex->getCode(), $ex);
 		}
 
@@ -141,6 +151,8 @@ final class Storage implements IStorage
 
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @throws Exceptions\StorageException
 	 */
 	public function removeTopic(string $identifier) : bool
 	{
@@ -149,7 +161,7 @@ final class Storage implements IStorage
 		try {
 			$result = $this->driver->delete($identifier);
 
-		} catch (\Exception $ex) {
+		} catch (Throwable $ex) {
 			throw new Exceptions\StorageException(sprintf('Driver %s failed', get_class($this)), $ex->getCode(), $ex);
 		}
 
@@ -157,11 +169,11 @@ final class Storage implements IStorage
 	}
 
 	/**
-	 * @return Entities\Topics\ITopic[]|\ArrayIterator
+	 * @return Entities\Topics\ITopic[]|ArrayIterator
 	 */
-	public function getIterator() : \ArrayIterator
+	public function getIterator() : ArrayIterator
 	{
-		return new \ArrayIterator($this->driver->fetchAll());
+		return new ArrayIterator($this->driver->fetchAll());
 	}
 
 	/**
