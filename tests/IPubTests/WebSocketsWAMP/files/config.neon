@@ -1,21 +1,14 @@
 extensions:
-	events : Contributte\EventDispatcher\DI\EventDispatcherExtension
-	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
-	webSockets : IPub\WebSockets\DI\WebSocketsExtension
-	webSocketsWAMP : IPub\WebSocketsWAMP\DI\WebSocketsWAMPExtension
+	contributteEvents	: Contributte\EventDispatcher\DI\EventDispatcherExtension
+	contributteConsole	: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
+	webSockets			: IPub\WebSockets\DI\WebSocketsExtension
 
-console:
+contributteConsole:
 	name: iPublikuj:Packages!
 	version: '1.0'
 	catchExceptions: true
 	autoExit: true
-	url: null
+	url: http://example.com
 	lazy: false
+	helperSet: \Symfony\Component\Console\Helper\HelperSet
 	helpers: []
-
-webSockets:
-	console: true
-	symfonyEvents: true
-
-webSocketsWAMP:
-	symfonyEvents: true

@@ -16,11 +16,14 @@ declare(strict_types = 1);
 
 namespace IPub\WebSocketsWAMP\PushMessages;
 
+use ReflectionException;
+
 use Nette;
 
 use IPub\WebSocketsWAMP\Entities;
 use IPub\WebSocketsWAMP\Serializers;
 
+use IPub\WebSockets\Exceptions as WebSocketsExceptions;
 use IPub\WebSockets\Router as WebSocketsRouter;
 
 /**
@@ -75,6 +78,9 @@ abstract class Pusher implements IPusher
 
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @throws WebSocketsExceptions\InvalidLinkException
+	 * @throws ReflectionException
 	 */
 	public function push($data, $destination, array $routeParameters = [], array $context = []) : void
 	{

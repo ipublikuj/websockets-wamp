@@ -18,6 +18,7 @@ namespace IPub\WebSocketsWAMP\DI;
 
 use Nette;
 use Nette\DI;
+use Nette\Schema;
 
 use Symfony\Component\EventDispatcher;
 
@@ -44,17 +45,19 @@ use IPub\WebSockets\Clients as WebSocketsClients;
 final class WebSocketsWAMPExtension extends DI\CompilerExtension
 {
 	/**
-	 * @var array
+	 * {@inheritdoc}
 	 */
-	private $defaults = [
-		'storage'       => [
-			'topics' => [
-				'driver' => '@topics.driver.memory',
-				'ttl'    => 0,
-			],
-		],
-		'symfonyEvents' => FALSE,
-	];
+	public function getConfigSchema() : Schema\Schema
+	{
+		return Schema\Expect::structure([
+			'storage' => Schema\Expect::structure([
+				'topics' => Schema\Expect::structure([
+					'driver' => Schema\Expect::string('@topics.driver.memory'),
+					'ttl'    => Schema\Expect::int(0),
+				]),
+			]),
+		]);
+	}
 
 	/**
 	 * {@inheritdoc}
@@ -63,12 +66,10 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 	{
 		parent::loadConfiguration();
 
-		/** @var DI\ContainerBuilder $builder */
 		$builder = $this->getContainerBuilder();
-		/** @var array $configuration */
-		$configuration = $this->validateConfig($this->defaults);
+		$configuration = $this->getConfig();
 
-		if ($configuration['storage']['topics']['driver'] === '@topics.driver.memory') {
+		if ($configuration->storage->topics->driver === '@topics.driver.memory') {
 			$storageDriver = $builder->addDefinition($this->prefix('topics.driver.memory'))
 				->setType(Topics\Drivers\InMemory::class);
 
@@ -79,7 +80,7 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 		$builder->addDefinition($this->prefix('topics.storage'))
 			->setType(Topics\Storage::class)
 			->setArguments([
-				'ttl' => $configuration['storage']['topics']['ttl'],
+				'ttl' => $configuration->storage->topics->ttl,
 			])
 			->addSetup('?->setStorageDriver(?)', ['@' . $this->prefix('topics.storage'), $storageDriver]);
 
@@ -123,10 +124,7 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 	{
 		parent::beforeCompile();
 
-		/** @var DI\ContainerBuilder $builder */
 		$builder = $this->getContainerBuilder();
-		/** @var array $configuration */
-		$configuration = $this->validateConfig($this->defaults);
 
 		$registry = $builder->getDefinition($builder->getByType(PushMessages\ConsumersRegistry::class));
 
@@ -140,11 +138,11 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 		 * EVENTS
 		 */
 
-		if ($configuration['symfonyEvents'] === TRUE) {
+		if (interface_exists('Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
 			$dispatcher = $builder->getDefinition($builder->getByType(EventDispatcher\EventDispatcherInterface::class));
 
 			$application = $builder->getDefinition($builder->getByType(Application\Application::class));
-			assert($application instanceof DI\ServiceDefinition);
+			assert($application instanceof DI\Definitions\ServiceDefinition);
 
 			$application->addSetup('?->onPush[] = function() {?->dispatch(new ?(...func_get_args()));}', [
 				'@self',
@@ -160,8 +158,10 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 	 *
 	 * @return void
 	 */
-	public static function register(Nette\Configurator $config, string $extensionName = 'webSocketsWAMP') : void
-	{
+	public static function register(
+		Nette\Configurator $config,
+		string $extensionName = 'webSocketsWAMP'
+	) : void {
 		$config->onCompile[] = function (Nette\Configurator $config, DI\Compiler $compiler) use ($extensionName) {
 			$compiler->addExtension($extensionName, new WebSocketsWAMPExtension());
 		};

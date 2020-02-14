@@ -63,12 +63,9 @@ class ExtensionTest extends Tester\TestCase
 		$config = new Nette\Configurator();
 		$config->setTempDirectory(TEMP_DIR);
 
-		if (getenv('NETTE') === 'default') {
-			$config->addConfig(__DIR__ . DS . 'files' . DS . 'config.neon');
+		$config->addConfig(__DIR__ . DS . 'files' . DS . 'config.neon');
 
-		} else {
-			$config->addConfig(__DIR__ . DS . 'files' . DS . 'config24.neon');
-		}
+		WebSocketsWAMP\DI\WebSocketsWAMPExtension::register($config);
 
 		return $config->createContainer();
 	}

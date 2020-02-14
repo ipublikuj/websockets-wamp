@@ -55,6 +55,8 @@ final class ConsumersRegistry implements IConsumersRegistry
 
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @throws Exceptions\InvalidArgumentException
 	 */
 	public function getConsumer(string $name) : IConsumer
 	{
