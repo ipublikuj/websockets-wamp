@@ -65,6 +65,8 @@ class ExtensionTest extends Tester\TestCase
 
 		$config->addConfig(__DIR__ . DS . 'files' . DS . 'config.neon');
 
+		WebSocketsWAMP\DI\WebSocketsWAMPExtension::register($config);
+
 		return $config->createContainer();
 	}
 }

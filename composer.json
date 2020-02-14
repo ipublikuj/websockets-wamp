@@ -50,7 +50,7 @@
 
     "symfony/serializer" : "^3.0 || ^4.0",
 
-    "ipub/websockets" : "~1.4"
+    "ipub/websockets" : "^1.4.1"
   },
 
   "require-dev" : {

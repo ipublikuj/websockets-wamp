@@ -101,7 +101,9 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 		 * CLIENTS
 		 */
 
-		$builder->removeDefinition($builder->getByType(WebSocketsClients\IClientFactory::class));
+		if ($builder->getByType(WebSocketsClients\IClientFactory::class) !== NULL) {
+			$builder->removeDefinition($builder->getByType(WebSocketsClients\IClientFactory::class));
+		}
 
 		$builder->addDefinition($this->prefix('clients.factory'))
 			->setType(Clients\ClientFactory::class);
@@ -112,9 +114,6 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 
 		$builder->addDefinition($this->prefix('subscribers.onServerStart'))
 			->setType(Subscribers\OnServerStartHandler::class);
-
-		$server = $builder->getDefinitionByType(WebSocketsServer\Server::class);
-		$server->addSetup('$service->onStart[] = ?', ['@' . $this->prefix('subscribers.onServerStart')]);
 	}
 
 	/**
@@ -133,6 +132,9 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 		foreach ($consumers as $consumer) {
 			$registry->addSetup('?->addConsumer(?)', [$registry, $consumer]);
 		}
+
+		$server = $builder->getDefinitionByType(WebSocketsServer\Server::class);
+		$server->addSetup('$service->onStart[] = ?', ['@' . $this->prefix('subscribers.onServerStart')]);
 
 		/**
 		 * EVENTS

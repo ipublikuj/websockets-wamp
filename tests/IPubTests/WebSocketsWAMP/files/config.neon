@@ -2,7 +2,6 @@ extensions:
 	contributteEvents	: Contributte\EventDispatcher\DI\EventDispatcherExtension
 	contributteConsole	: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
 	webSockets			: IPub\WebSockets\DI\WebSocketsExtension
-	webSocketsWAMP		: IPub\WebSocketsWAMP\DI\WebSocketsWAMPExtension
 
 contributteConsole:
 	name: iPublikuj:Packages!
