@@ -41,36 +41,51 @@
   },
 
   "require" : {
-    "php" : ">=7.3.0",
-
-    "psr/log" : "~1.0",
-
-    "nette/di" : "~3.0",
-    "nette/utils" : "~3.0",
-
-    "symfony/serializer" : "^3.0 || ^4.0",
-
-    "ipub/websockets" : "^1.4.1"
+    "php": ">=7.4.0|>=8.0.0",
+    "nette/di": "^3.0",
+    "nette/utils": "^3.2",
+    "psr/log": "^1.1",
+    "symfony/serializer" : "^3.0|^4.0|^5.0|^6.0",
+    "ipub/websockets" : "^1.5"
   },
 
   "require-dev" : {
-    "nette/bootstrap" : "~3.0",
-    "nette/mail" : "~3.0",
-    "nette/robot-loader" : "~3.0",
-    "nette/safe-stream" : "~2.3",
-    "nette/tester" : "~2.3",
-
-    "tracy/tracy" : "~2.4",
-
-    "contributte/event-dispatcher" : "~0.5",
-    "contributte/console" : "~0.6",
-
-    "pds/skeleton" : "~1.0"
+    "mockery/mockery": "^1.4",
+    "nette/bootstrap": "^3.1",
+    "nette/mail": "^3.1",
+    "nette/robot-loader": "^3.4",
+    "nette/safe-stream": "^2.5",
+    "nette/security": "^3.1",
+    "nette/tester": "^2.4",
+    "ninjify/nunjuck": "^0.3",
+    "ninjify/qa": "^0.12",
+    "pds/skeleton": "^1.0",
+    "phpstan/extension-installer": "^1.1",
+    "phpstan/phpstan": "^0.12",
+    "phpstan/phpstan-deprecation-rules": "^0.12",
+    "phpstan/phpstan-doctrine": "^0.12",
+    "phpstan/phpstan-nette": "^0.12",
+    "phpstan/phpstan-strict-rules": "^0.12",
+    "symfony/console": "^5.0|^6.0",
+    "symfony/event-dispatcher": "^5.0|^6.0",
+    "tracy/tracy": "^2.9"
   },
 
   "autoload" : {
-    "psr-0" : {
+    "psr-4" : {
       "IPub\\WebSocketsWAMP\\" : "src/"
     }
+  },
+
+  "autoload-dev" : {
+    "psr-4" : {
+      "Tests\\Cases\\" : "tests/cases",
+      "Tests\\Fixtures\\" : "tests/fixtures",
+      "Tests\\Libs\\" : "tests/libs"
+    }
+  },
+
+  "config" : {
+    "sort-packages" : true
   }
 }

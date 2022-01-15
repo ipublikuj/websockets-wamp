@@ -1,0 +1,5 @@
+php:
+    date.timezone: Europe/Prague
+
+extensions:
+    webSockets: IPub\WebSockets\DI\WebSocketsExtension

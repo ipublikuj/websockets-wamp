@@ -1,7 +1,7 @@
 /**
  * ipub.websockets.wamp.js
  *
- * @copyright      More in license.md
+ * @copyright      More in LICENSE.md
  * @license        https://www.ipublikuj.eu
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  * @package        iPublikuj:WebSocket!
