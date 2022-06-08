@@ -26,6 +26,7 @@ use IPub\WebSocketsWAMP\Subscribers;
 use IPub\WebSocketsWAMP\Topics;
 use Nette;
 use Nette\DI;
+use Nette\PhpGenerator;
 use Nette\Schema;
 use Symfony\Component\EventDispatcher;
 
@@ -148,7 +149,7 @@ final class WebSocketsWAMPExtension extends DI\CompilerExtension
 			$application->addSetup('?->onPush[] = function() {?->dispatch(new ?(...func_get_args()));}', [
 				'@self',
 				$dispatcher,
-				new Nette\PhpGenerator\PhpLiteral(Events\Application\PushEvent::class),
+				new PhpGenerator\Literal(Events\Application\PushEvent::class),
 			]);
 		}
 	}

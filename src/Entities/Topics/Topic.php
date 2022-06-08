@@ -22,6 +22,7 @@ use IPub\WebSocketsWAMP\Exceptions;
 use Nette;
 use Nette\Utils;
 use SplObjectStorage;
+use Traversable;
 
 /**
  * A topic/channel containing connections that have subscribed to it
@@ -126,7 +127,7 @@ final class Topic implements ITopic
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getIterator()
+	public function getIterator(): Traversable
 	{
 		return $this->subscribers;
 	}
